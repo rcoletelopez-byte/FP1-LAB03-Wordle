@@ -12,8 +12,9 @@ def es_palabra_valida(cadena: str) -> bool:
     Devuelve:
         True si la cadena es una palabra válida, False en otro caso
     '''
-    # TODO: Implementa esta función
-    return True
+    return len(cadena) == 5 and cadena.isalpha()
+
+
 
 def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
     """ 
@@ -25,14 +26,60 @@ def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
     Devuelve:
         Una tupla (minutos, segundos) con la diferencia entre los dos datetime
     """
-    # TODO: Implementa esta función
-    pass
+ 
+    tiempo_total_partida = (fin-inicio).total_seconds()
+    minutos = tiempo_total_partida // 60
+    segundos = tiempo_total_partida % 60
 
-# TODO: Escribe la cabecera completa e implementa la función quitar_letra
+    lista_minutos_segundos = (minutos, segundos)
+    return lista_minutos_segundos
 
-# TODO: Escribe la cabecera completa e implementa la función marcar_verdes
+    
 
-# TODO: Escribe la cabecera completa e implementa la función marcar_amarillos
+def quitar_letras(cadena: str, caracter: str) -> str:
+    res = ""
+    encontrado = False
+    # Para cada caracter "c" de cadena:
+        # Si "c" es distinto de "caracter" o "encontrado"
+            # Añadirlo a res
+    for c in cadena:
+        if c == caracter and not encontrado:
+          pass #---
+        else:
+            res += 1    
+    return res          
+
+
+
+def marcar_verdes(palabra_secreta: str, intento: str) -> str:
+    verdes = ""
+    restantes = palabra_secreta
+
+    for v in range(len(palabra_secreta(0,4))):
+        if palabra_secreta[v] == intento:
+            verdes += "V"
+            restantes = quitar_letras(palabra_secreta, v)
+        else:
+            verdes += "_" 
+    return verdes, restantes
+
+
+def marcar_amarillas(intento: str, verdes: str, restantes: str) -> str:
+    colores = ""
+    for v in range(len(verdes)):
+        if verdes[v] == intento:
+            colores += "V"
+        else:
+            if intento[v] in restantes:
+                cadena += "A"
+                restantes = quitar_letras(restantes, v)
+            else:
+                cadena += "_"
+    return colores
+
+
+
+
 
 def obtener_pistas(palabra_secreta: str, intento: str) -> str:
     """
@@ -43,7 +90,6 @@ def obtener_pistas(palabra_secreta: str, intento: str) -> str:
     Devuelve:
         Una cadena de 5 caracteres con 'V', 'A' y '_'
     """
-    # TODO: Implementa esta función
-    return "_____"  # Elimina esta línea cuando la implementes
+    
 
 
