@@ -44,37 +44,53 @@ def quitar_letras(cadena: str, caracter: str) -> str:
             # Añadirlo a res
     for c in cadena:
         if c == caracter and not encontrado:
-          pass #---
+          encontrado = True
         else:
-            res += 1    
+            res += c    
     return res          
 
 
 
 def marcar_verdes(palabra_secreta: str, intento: str) -> str:
-    verdes = ""
-    restantes = palabra_secreta
+    """
+    Compara el intento con la palabra secreta para encontrar las letras correctas
+    en la posición correcta (verdes).
 
-    for v in range(len(palabra_secreta(0,4))):
-        if palabra_secreta[v] == intento:
+    Devuelve:
+        - Una cadena string con "V" para las letras verdes y "_" para el resto.
+        - Una cadena string con las letras de la palabra secreta que no fueron verdes.
+    """
+
+    verdes = ""
+    restantes = ""
+
+    for v in range(len(palabra_secreta)):
+        if palabra_secreta[v] == intento[v]:
             verdes += "V"
-            restantes = quitar_letras(palabra_secreta, v)
         else:
             verdes += "_" 
+            restantes += palabra_secreta[v]
+
     return verdes, restantes
 
 
 def marcar_amarillas(intento: str, verdes: str, restantes: str) -> str:
+    """
+    Usa el resultado de los verdes para marcar las letras que están en la
+    palabra pero en la posición incorrecta (amarillas).
+    """
+
     colores = ""
+
     for v in range(len(verdes)):
-        if verdes[v] == intento:
+        if verdes[v] == "V":
             colores += "V"
         else:
             if intento[v] in restantes:
-                cadena += "A"
+                colores += "A"
                 restantes = quitar_letras(restantes, v)
             else:
-                cadena += "_"
+                colores += "_"
     return colores
 
 
@@ -90,6 +106,14 @@ def obtener_pistas(palabra_secreta: str, intento: str) -> str:
     Devuelve:
         Una cadena de 5 caracteres con 'V', 'A' y '_'
     """
+
+    # 1: Identificar las letras verdes y obtener las letras restantes.
+    verdes, restantes = marcar_verdes(palabra_secreta, intento)
+
+    # 2: Usar el resultado anterior para marcar las amarillas.
+    pistas_completas = marcar_amarillas(intento, verdes, restantes)
+
+    return pistas_completas
     
 
 
