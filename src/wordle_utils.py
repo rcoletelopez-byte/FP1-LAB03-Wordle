@@ -27,12 +27,14 @@ def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
         Una tupla (minutos, segundos) con la diferencia entre los dos datetime
     """
  
-    tiempo_total_partida = (fin-inicio).total_seconds()
-    minutos = tiempo_total_partida // 60
-    segundos = tiempo_total_partida % 60
+    delta = fin - inicio
+    total_segundos = delta.total_seconds()
+    minutos = int(total_segundos // 60)
+    segundos = int(total_segundos % 60)
+    
+    return minutos, segundos
 
-    lista_minutos_segundos = (minutos, segundos)
-    return lista_minutos_segundos
+    
 
     
 
