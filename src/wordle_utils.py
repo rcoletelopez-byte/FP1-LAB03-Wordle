@@ -12,7 +12,9 @@ def es_palabra_valida(cadena: str) -> bool:
     Devuelve:
         True si la cadena es una palabra válida, False en otro caso
     '''
-    return len(cadena) == 5 and cadena.isalpha()
+    
+    return cadena.isalpha() and len(cadena) == 5
+        
 
 
 
@@ -37,19 +39,23 @@ def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
     
 
     
-
 def quitar_letras(cadena: str, caracter: str) -> str:
+    """
+    Recibe una cadena y un carácter, y devuelve una nueva cadena igual a la recibida 
+    pero eliminando la primera aparición del carácter indicado, si es que dicho 
+    carácter existe en la cadena (si no existe, devolverá la misma cadena recibida).
+    """
+
     res = ""
     encontrado = False
-    # Para cada caracter "c" de cadena:
-        # Si "c" es distinto de "caracter" o "encontrado"
-            # Añadirlo a res
+
     for c in cadena:
         if c == caracter and not encontrado:
-          encontrado = True
+            encontrado = True
         else:
-            res += c    
-    return res          
+            res += c
+    return res
+
 
 
 
@@ -66,14 +72,17 @@ def marcar_verdes(palabra_secreta: str, intento: str) -> str:
     verdes = ""
     restantes = ""
 
-    for v in range(len(palabra_secreta)):
-        if palabra_secreta[v] == intento[v]:
+    for i in range(len(palabra_secreta)):
+        if palabra_secreta[i] == intento[i]:
             verdes += "V"
         else:
-            verdes += "_" 
-            restantes += palabra_secreta[v]
-
+            verdes += "_"
+            restantes += palabra_secreta[i]
     return verdes, restantes
+
+
+
+
 
 
 def marcar_amarillas(intento: str, verdes: str, restantes: str) -> str:
@@ -81,20 +90,20 @@ def marcar_amarillas(intento: str, verdes: str, restantes: str) -> str:
     Usa el resultado de los verdes para marcar las letras que están en la
     palabra pero en la posición incorrecta (amarillas).
     """
-
     colores = ""
 
-    for v in range(len(verdes)):
-        if verdes[v] == "V":
+    for i in range(len(intento)):
+        if verdes[i] == "V":
             colores += "V"
         else:
-            if intento[v] in restantes:
+            if intento[i] in restantes:
                 colores += "A"
-                restantes = quitar_letras(restantes, v)
+                restantes = quitar_letras(restantes, intento[i])
             else:
                 colores += "_"
+                
     return colores
-
+    
 
 
 
@@ -108,14 +117,8 @@ def obtener_pistas(palabra_secreta: str, intento: str) -> str:
     Devuelve:
         Una cadena de 5 caracteres con 'V', 'A' y '_'
     """
-
     # 1: Identificar las letras verdes y obtener las letras restantes.
     verdes, restantes = marcar_verdes(palabra_secreta, intento)
-
     # 2: Usar el resultado anterior para marcar las amarillas.
     pistas_completas = marcar_amarillas(intento, verdes, restantes)
-
     return pistas_completas
-    
-
-
